@@ -52,7 +52,7 @@ function viewfield_field_instance_settings_form($field, $instance) {
   $form['allowed_views'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Allowed values'),
-    '#options' => drupal_map_assoc(array_keys(views_get_enabled_views())),
+    '#options' => backdrop_map_assoc(array_keys(views_get_enabled_views())),
     '#default_value' => isset($instance['settings']['allowed_views']) && is_array($instance['settings']['allowed_views']) ? $instance['settings']['allowed_views'] : array(),
     '#description' => t('Only selected views will be available for content authors. Leave empty to allow all.'),
   );
@@ -112,7 +112,7 @@ function viewfield_field_formatter_info() {
   return array(
     'viewfield_default' => array(
       'label' => t('Default'),
-      'field types' => array('viewfield')
+      'field types' => array('viewfield'),
     ),
   );
 }
@@ -166,7 +166,7 @@ function viewfield_element_info() {
  * @see viewfield_post_render()
  */
 function viewfield_pre_render($element) {
-  $stack = &drupal_static('viewfield_stack', array());
+  $stack = &backdrop_static('viewfield_stack', array());
 
   // Abort rendering in case the view could not be loaded.
   if (empty($element['#view'])) {
@@ -198,7 +198,7 @@ function viewfield_pre_render($element) {
  * @see viewfield_field_formatter_view()
  */
 function viewfield_post_render($content, $element) {
-  $stack = &drupal_static('viewfield_stack', array());
+  $stack = &backdrop_static('viewfield_stack', array());
 
   unset($stack[$element['#entity_type']][$element['#entity_id']]);
 
@@ -289,7 +289,7 @@ function viewfield_field_widget_form(&$form, &$form_state, $field, $instance, $l
   // @todo Core: Fix bogus white-space: nowrap.
   // @see http://drupal.org/node/1230336
   $element['#attached']['css'] = array(
-    drupal_get_path('module', 'viewfield') . '/viewfield.css' => array(
+    backdrop_get_path('module', 'viewfield') . '/viewfield.css' => array(
       'weight' => 1,
     ),
   );
@@ -372,12 +372,12 @@ function _viewfield_get_view_args($vargs, $entity_type, $entity) {
  * Implements hook_content_migrate_field_alter().
  */
 function viewfield_content_migrate_field_alter(&$field_value, $instance_value) {
-    switch ($field_value['type']) {
-      case 'viewfield':
-        // allowed_views is now an instance setting.
-        unset($field_value['settings']['allowed_views']);
-        break;
-    }
+  switch ($field_value['type']) {
+    case 'viewfield':
+      // allowed_views is now an instance setting.
+      unset($field_value['settings']['allowed_views']);
+      break;
+  }
 }
 
 /**
