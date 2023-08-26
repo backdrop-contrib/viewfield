@@ -167,6 +167,7 @@ function viewfield_field_formatter_settings_summary($field, $instance, $view_mod
     // Create a comma-separated list.
     $summary = implode(', ', $fields_to_display);
   }
+  $summary = $summary? $summary : t('No information to list');
 
   return $summary;
 }
