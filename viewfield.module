@@ -133,7 +133,8 @@ function viewfield_field_formatter_info() {
  * Implements hook_field_formatter_settings_form().
  */
 function viewfield_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
-  $settings = $instance['display'][$view_mode]['settings'];
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
 
   $element = array();
   $element['fields_to_display'] = array(
@@ -155,8 +156,11 @@ function viewfield_field_formatter_settings_form($field, $instance, $view_mode, 
  */
 function viewfield_field_formatter_settings_summary($field, $instance, $view_mode) {
   $summary = NULL;
-  $settings = $instance['display'][$view_mode]['settings'];
 
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+if ($display['type'] == 'viewfield_field_values') {
   if (isset($settings['fields_to_display'])) {
     // Remove items which are empty.
     $fields_to_display = array_filter($settings['fields_to_display']);
@@ -168,6 +172,7 @@ function viewfield_field_formatter_settings_summary($field, $instance, $view_mod
     $summary = implode(', ', $fields_to_display);
     $summary = $summary? $summary : t('No information to list');
   }
+}
 
   return $summary;
 }
