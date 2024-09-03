@@ -140,7 +140,7 @@ function viewfield_field_formatter_settings_form($field, $instance, $view_mode, 
   $element['fields_to_display'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Information to list'),
-    '#default_value' => $settings['fields_to_display'],
+    '#default_value' => isset($settings['fields_to_display']) ? $settings['fields_to_display'] : array(),
     '#options' => array(
       'vname' => 'View name',
       'vdisplay' => 'Display',
